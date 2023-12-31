@@ -85,7 +85,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+     <div class="container">
         <header>
             <h1>Happy New Year 2024!</h1>
             <p>Wishing you a year filled with joy, success, and prosperity. May it be your best year yet!</p>
@@ -123,10 +123,25 @@
         }
 
         function shareOnWhatsApp() {
-            // ... (unchanged code)
+            var defaultSenderName = "Your Name"; // Set your name as default
+
+            // Prompt the user to change the sender's name
+            var changeName = confirm("Do you want to send this wish in your Name?");
+            if (changeName) {
+                defaultSenderName = prompt("Enter your name:", defaultSenderName);
+                if (defaultSenderName === null) {
+                    // If the user cancels, return without sharing
+                    return;
+                }
+                document.getElementById("wisherName").innerText = defaultSenderName;
+            }
+
+            // Construct the shareable URL with the sender's name as a parameter
+            var pageUrl = window.location.href.split('?')[0]; // Remove existing parameters
+            pageUrl += "?senderName=" + encodeURIComponent(defaultSenderName);
 
             // Construct the WhatsApp share message with the GitHub Pages link
-            var message = encodeURIComponent(userName + " sends you the best wishes for the New Year! Happy New Year 2024! Wishing you a year filled with joy, success, and prosperity. May it be your best year yet. Check it out: " + pageUrl);
+            var message = encodeURIComponent(defaultSenderName + " sends you the best wishes for the New Year! Happy New Year 2024! Wishing you a year filled with joy, success, and prosperity. May it be your best year yet. Check it out: " + pageUrl);
             
             // Construct the WhatsApp share link
             var whatsappLink = "https://api.whatsapp.com/send?text=" + message;
