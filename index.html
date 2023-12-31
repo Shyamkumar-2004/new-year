@@ -116,13 +116,15 @@
                 document.getElementById("wisherName").innerText = userName;
             }
 
-            // Create a shareable URL with the user's name as a parameter
+            // Construct the GitHub Pages link with the user's name as a parameter
             var pageUrl = window.location.href.split('?')[0]; // Remove existing parameters
             pageUrl += "?senderName=" + encodeURIComponent(userName);
 
+            // Construct the WhatsApp share message with the GitHub Pages link
+            var message = encodeURIComponent(userName + " sends you the best wishes for the New Year! Happy New Year 2024! Wishing you a year filled with joy, success, and prosperity. May it be your best year yet. Check it out: " + pageUrl);
+            
             // Construct the WhatsApp share link
-            var message = encodeURIComponent(userName + " sends you the best wishes for the New Year! Happy New Year 2024! Wishing you a year filled with joy, success, and prosperity. May it be your best year yet!");
-            var whatsappLink = "https://api.whatsapp.com/send?text=" + message + "%0a%0a" + encodeURIComponent(pageUrl);
+            var whatsappLink = "https://api.whatsapp.com/send?text=" + message;
 
             // Open a new window with the WhatsApp share link
             var newWindow = window.open(whatsappLink, '_blank');
