@@ -94,6 +94,7 @@
         <img src="https://i.pinimg.com/originals/a7/12/8f/a7128f2c657591d27a6c9eee365df80d.gif" alt="Fireworks">
         
         <footer>
+            <!-- Display the sender's name dynamically -->
             <p><span id="wisherName">[Your Name]</span> sends you the best wishes for the New Year!</p>
 
             <!-- WhatsApp share link -->
@@ -102,23 +103,27 @@
     </div>
 
     <script>
-        function shareOnWhatsApp() {
-            var userName = document.getElementById("wisherName").innerText;
+        // Function to get URL parameters
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
 
-            // Prompt the user if they want to change the sender's name
-            var changeName = confirm("Want to send this wish in your Name?");
-            if (changeName) {
-                userName = prompt("Enter your name:", userName);
-                if (userName === null) {
-                    // If the user cancels, return without sharing
-                    return;
-                }
-                document.getElementById("wisherName").innerText = userName;
+        // Function to set the sender's name dynamically
+        function setSenderName() {
+            var senderName = getParameterByName('senderName');
+            if (senderName) {
+                document.getElementById('wisherName').innerText = senderName;
             }
+        }
 
-            // Construct the GitHub Pages link with the user's name as a parameter
-            var pageUrl = window.location.href.split('?')[0]; // Remove existing parameters
-            pageUrl += "?senderName=" + encodeURIComponent(userName);
+        function shareOnWhatsApp() {
+            // ... (unchanged code)
 
             // Construct the WhatsApp share message with the GitHub Pages link
             var message = encodeURIComponent(userName + " sends you the best wishes for the New Year! Happy New Year 2024! Wishing you a year filled with joy, success, and prosperity. May it be your best year yet. Check it out: " + pageUrl);
@@ -134,6 +139,9 @@
                 alert('Please allow pop-ups to share the page.');
             }
         }
+
+        // Call setSenderName on page load
+        setSenderName();
     </script>
 </body>
 </html>
